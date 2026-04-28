@@ -6,15 +6,34 @@ export function AuthGate() {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errorDetail, setErrorDetail] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setStatus('sending');
+    setErrorDetail(null);
+
+    const url = import.meta.env.VITE_SUPABASE_URL;
+    const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    if (!url || !key) {
+      setStatus('error');
+      setErrorDetail(
+        'Supabase env vars are missing in this build. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Vercel and redeploy.'
+      );
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: { emailRedirectTo: window.location.origin },
     });
-    setStatus(error ? 'error' : 'sent');
+    if (error) {
+      console.error('signInWithOtp error:', error);
+      setStatus('error');
+      setErrorDetail(error.message);
+    } else {
+      setStatus('sent');
+    }
   }
 
   return (
@@ -49,7 +68,14 @@ export function AuthGate() {
           </button>
 
           {status === 'sent' && <p className="text-sm text-green-600">{t('auth.sent')}</p>}
-          {status === 'error' && <p className="text-sm text-red-600">{t('auth.error')}</p>}
+          {status === 'error' && (
+            <div className="text-sm text-red-600">
+              <p>{t('auth.error')}</p>
+              {errorDetail && (
+                <p className="mt-1 text-xs text-red-500 font-mono break-all">{errorDetail}</p>
+              )}
+            </div>
+          )}
         </form>
       </div>
     </div>
