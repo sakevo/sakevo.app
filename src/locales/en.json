@@ -1,0 +1,59 @@
+{
+  "app": {
+    "name": "SAKEVO",
+    "tagline": "AI custom designs & restoration for sneakers and clothing"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "newProject": "New Project",
+    "logout": "Log out"
+  },
+  "auth": {
+    "title": "Sign in",
+    "subtitle": "We'll email you a magic link.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "send": "Send magic link",
+    "sending": "Sending ...",
+    "sent": "Link sent — check your inbox.",
+    "error": "Sending failed. Please try again."
+  },
+  "upload": {
+    "title": "New project",
+    "subtitle": "Upload a photo and choose what AI should do.",
+    "dropzone": "Drop a photo here or click to choose",
+    "dropzoneHint": "JPG or PNG, max 10 MB",
+    "itemTypeLabel": "What's in the photo?",
+    "itemTypes": { "sneaker": "Sneaker", "clothing": "Clothing" },
+    "modeLabel": "What should AI do?",
+    "modes": {
+      "custom": "Custom ideas",
+      "restore": "Restoration",
+      "both": "Both"
+    },
+    "styleHintLabel": "Style hint (optional)",
+    "styleHintPlaceholder": "e.g. Y2K, minimalist, olive green",
+    "submit": "Start analysis",
+    "submitting": "Analyzing ...",
+    "tooLarge": "Image too large (max 10 MB).",
+    "noImage": "Please select an image first."
+  },
+  "dashboard": {
+    "title": "Your projects",
+    "empty": "No projects yet. Start with your first upload.",
+    "freeQuota": "Free tier: {{used}} of {{limit}} projects used"
+  },
+  "project": {
+    "back": "Back",
+    "originalPhoto": "Original photo",
+    "analysis": "Analysis",
+    "customIdeas": "Custom ideas",
+    "restoration": "Restoration",
+    "rawJson": "Raw data",
+    "loading": "Analysis running ..."
+  },
+  "common": {
+    "language": "Language",
+    "loading": "Loading ..."
+  }
+}

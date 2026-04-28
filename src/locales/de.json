@@ -1,0 +1,59 @@
+{
+  "app": {
+    "name": "SAKEVO",
+    "tagline": "KI Custom Designs & Restaurierung für Sneaker und Kleidung"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "newProject": "Neues Projekt",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "title": "Anmelden",
+    "subtitle": "Wir senden dir einen Magic Link per E-Mail.",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "du@beispiel.de",
+    "send": "Magic Link senden",
+    "sending": "Sende ...",
+    "sent": "Link gesendet — schau in dein Postfach.",
+    "error": "Fehler beim Senden. Bitte erneut versuchen."
+  },
+  "upload": {
+    "title": "Neues Projekt",
+    "subtitle": "Lade ein Foto hoch und wähle, was die KI für dich tun soll.",
+    "dropzone": "Foto hierher ziehen oder klicken",
+    "dropzoneHint": "JPG oder PNG, max. 10 MB",
+    "itemTypeLabel": "Was ist auf dem Bild?",
+    "itemTypes": { "sneaker": "Sneaker", "clothing": "Kleidung" },
+    "modeLabel": "Was soll die KI tun?",
+    "modes": {
+      "custom": "Custom-Ideen",
+      "restore": "Restaurierung",
+      "both": "Beides"
+    },
+    "styleHintLabel": "Stil-Hinweis (optional)",
+    "styleHintPlaceholder": "z.B. Y2K, minimalistisch, olive grün",
+    "submit": "Analyse starten",
+    "submitting": "Analysiere ...",
+    "tooLarge": "Bild ist zu groß (max. 10 MB).",
+    "noImage": "Bitte zuerst ein Bild auswählen."
+  },
+  "dashboard": {
+    "title": "Deine Projekte",
+    "empty": "Noch keine Projekte. Starte mit deinem ersten Upload.",
+    "freeQuota": "Free-Tier: {{used}} von {{limit}} Projekten genutzt"
+  },
+  "project": {
+    "back": "Zurück",
+    "originalPhoto": "Originalfoto",
+    "analysis": "Analyse",
+    "customIdeas": "Custom-Ideen",
+    "restoration": "Restaurierung",
+    "rawJson": "Rohdaten",
+    "loading": "Analyse läuft ..."
+  },
+  "common": {
+    "language": "Sprache",
+    "loading": "Lädt ..."
+  }
+}
