@@ -91,86 +91,131 @@ export function NewProject() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
-      <h1 className="text-2xl font-bold">{t('upload.title')}</h1>
-      <p className="text-neutral-500 mt-1">{t('upload.subtitle')}</p>
+    <div className="mx-auto max-w-2xl px-4 py-10">
+      <h1 className="font-display text-3xl font-semibold text-forest-800">{t('upload.title')}</h1>
+      <p className="text-forest-500 mt-1">{t('upload.subtitle')}</p>
 
-      <form onSubmit={onSubmit} className="mt-6 space-y-6">
+      <form onSubmit={onSubmit} className="mt-8 space-y-7">
         <label className="block">
-          <div className="rounded-2xl border-2 border-dashed border-neutral-300 hover:border-brand-500 p-8 text-center cursor-pointer transition">
+          <div
+            className={`rounded-3xl border-2 border-dashed p-8 text-center cursor-pointer transition ${
+              previewUrl
+                ? 'border-forest-300 bg-white'
+                : 'border-cream-300 bg-cream-100/50 hover:border-forest-400 hover:bg-cream-100'
+            }`}
+          >
             {previewUrl ? (
-              <img src={previewUrl} alt="" className="mx-auto max-h-64 rounded-lg" />
+              <img
+                src={previewUrl}
+                alt=""
+                className="mx-auto max-h-72 rounded-2xl object-contain"
+              />
             ) : (
-              <div>
-                <p className="font-medium text-neutral-700">{t('upload.dropzone')}</p>
-                <p className="text-sm text-neutral-500 mt-1">{t('upload.dropzoneHint')}</p>
+              <div className="py-6">
+                <UploadIcon />
+                <p className="mt-3 font-medium text-forest-700">{t('upload.dropzone')}</p>
+                <p className="text-sm text-forest-400 mt-1">{t('upload.dropzoneHint')}</p>
               </div>
             )}
             <input type="file" accept="image/*" onChange={onFileChange} className="hidden" />
           </div>
         </label>
 
-        <div>
-          <span className="text-sm font-medium text-neutral-700">{t('upload.itemTypeLabel')}</span>
-          <div className="mt-2 flex gap-2">
+        <fieldset>
+          <legend className="label">{t('upload.itemTypeLabel')}</legend>
+          <div className="mt-3 grid grid-cols-2 gap-2">
             {(['sneaker', 'clothing'] as const).map((opt) => (
-              <button
+              <SegmentButton
                 key={opt}
-                type="button"
+                active={itemType === opt}
                 onClick={() => setItemType(opt)}
-                className={`px-4 py-2 rounded-lg text-sm border ${
-                  itemType === opt
-                    ? 'bg-brand-600 text-white border-brand-600'
-                    : 'bg-white text-neutral-700 border-neutral-300'
-                }`}
-              >
-                {t(`upload.itemTypes.${opt}`)}
-              </button>
+                label={t(`upload.itemTypes.${opt}`)}
+              />
             ))}
           </div>
-        </div>
+        </fieldset>
 
-        <div>
-          <span className="text-sm font-medium text-neutral-700">{t('upload.modeLabel')}</span>
-          <div className="mt-2 flex gap-2 flex-wrap">
+        <fieldset>
+          <legend className="label">{t('upload.modeLabel')}</legend>
+          <div className="mt-3 grid grid-cols-3 gap-2">
             {(['custom', 'restore', 'both'] as const).map((opt) => (
-              <button
+              <SegmentButton
                 key={opt}
-                type="button"
+                active={mode === opt}
                 onClick={() => setMode(opt)}
-                className={`px-4 py-2 rounded-lg text-sm border ${
-                  mode === opt
-                    ? 'bg-brand-600 text-white border-brand-600'
-                    : 'bg-white text-neutral-700 border-neutral-300'
-                }`}
-              >
-                {t(`upload.modes.${opt}`)}
-              </button>
+                label={t(`upload.modes.${opt}`)}
+              />
             ))}
           </div>
-        </div>
+        </fieldset>
 
         <label className="block">
-          <span className="text-sm font-medium text-neutral-700">{t('upload.styleHintLabel')}</span>
+          <span className="label">{t('upload.styleHintLabel')}</span>
           <input
             type="text"
             value={styleHint}
             onChange={(e) => setStyleHint(e.target.value)}
             placeholder={t('upload.styleHintPlaceholder')}
-            className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+            className="input mt-1.5"
           />
         </label>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && (
+          <div className="rounded-xl bg-accent-soft/30 px-4 py-3 text-sm text-accent">
+            {error}
+          </div>
+        )}
 
         <button
           type="submit"
           disabled={submitting || !file}
-          className="w-full rounded-lg bg-brand-600 px-4 py-3 text-white font-medium hover:bg-brand-700 disabled:opacity-50"
+          className="btn-primary w-full !py-3"
         >
           {submitting ? t('upload.submitting') : t('upload.submit')}
         </button>
       </form>
     </div>
+  );
+}
+
+interface SegmentButtonProps {
+  active: boolean;
+  onClick: () => void;
+  label: string;
+}
+
+function SegmentButton({ active, onClick, label }: SegmentButtonProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-2xl px-4 py-2.5 text-sm font-medium border transition ${
+        active
+          ? 'bg-forest-700 text-cream-50 border-forest-700 shadow-soft'
+          : 'bg-white text-forest-700 border-cream-200 hover:border-forest-300'
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
+function UploadIcon() {
+  return (
+    <svg
+      className="mx-auto text-forest-400"
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="17 8 12 3 7 8" />
+      <line x1="12" y1="3" x2="12" y2="15" />
+    </svg>
   );
 }

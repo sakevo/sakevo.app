@@ -60,65 +60,98 @@ export function ProjectDetail() {
   }, [id]);
 
   if (!project) {
-    return <div className="p-8 text-center text-neutral-500">{t('common.loading')}</div>;
+    return <div className="p-12 text-center text-forest-400">{t('common.loading')}</div>;
   }
 
   const isLoading = ['pending', 'analyzing', 'rendering'].includes(project.status);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8">
-      <Link to="/" className="text-sm text-neutral-500 hover:text-neutral-900">
+    <div className="mx-auto max-w-4xl px-4 py-10">
+      <Link to="/" className="text-sm text-forest-500 hover:text-forest-800 transition">
         ← {t('project.back')}
       </Link>
 
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <h2 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section>
+          <h2 className="text-xs font-medium uppercase tracking-wider text-forest-500">
             {t('project.originalPhoto')}
           </h2>
           {imageUrl && (
-            <img src={imageUrl} alt="" className="mt-2 rounded-2xl w-full border border-neutral-200" />
+            <img
+              src={imageUrl}
+              alt=""
+              className="mt-3 rounded-3xl w-full border border-cream-200 bg-cream-100"
+            />
           )}
-          <div className="mt-3 text-sm text-neutral-600">
-            <div>
-              {project.item_type} · {project.mode}
-            </div>
-            {project.style_hint && <div className="italic">"{project.style_hint}"</div>}
+          <div className="mt-4 flex flex-wrap gap-2">
+            <span className="chip bg-cream-100 text-forest-700">{project.item_type}</span>
+            <span className="chip bg-cream-100 text-forest-700">{project.mode}</span>
+            {project.style_hint && (
+              <span className="chip bg-forest-50 text-forest-700 italic">
+                "{project.style_hint}"
+              </span>
+            )}
           </div>
-        </div>
+        </section>
 
-        <div>
-          <h2 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
+        <section>
+          <h2 className="text-xs font-medium uppercase tracking-wider text-forest-500">
             {t('project.analysis')}
           </h2>
 
           {isLoading && (
-            <div className="mt-4 rounded-2xl border border-neutral-200 bg-white p-6">
-              <div className="animate-pulse text-neutral-500">{t('project.loading')}</div>
-              <div className="text-xs text-neutral-400 mt-2">status: {project.status}</div>
+            <div className="mt-3 card p-6">
+              <div className="flex items-center gap-3">
+                <Spinner />
+                <div>
+                  <p className="text-sm font-medium text-forest-700">{t('project.loading')}</p>
+                  <p className="text-xs text-forest-400 mt-0.5">status: {project.status}</p>
+                </div>
+              </div>
             </div>
           )}
 
           {project.status === 'error' && (
-            <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
+            <div className="mt-3 rounded-3xl border border-accent-soft bg-accent-soft/20 p-6 text-sm text-accent">
               {project.error_message ?? 'Error'}
             </div>
           )}
 
           {analysis && (
-            <div className="mt-4 rounded-2xl border border-neutral-200 bg-white p-4">
+            <div className="mt-3 card p-5">
               <details>
-                <summary className="cursor-pointer text-sm font-medium">
-                  {t('project.rawJson')} ({analysis.model_used})
+                <summary className="cursor-pointer text-sm font-medium text-forest-700 select-none">
+                  {t('project.rawJson')}{' '}
+                  <span className="font-normal text-forest-400">({analysis.model_used})</span>
                 </summary>
-                <pre className="mt-3 text-xs overflow-auto bg-neutral-50 p-3 rounded-lg">
+                <pre className="mt-3 text-xs overflow-auto bg-cream-50 border border-cream-200 p-4 rounded-2xl text-forest-800">
                   {JSON.stringify(analysis.result_json, null, 2)}
                 </pre>
               </details>
             </div>
           )}
-        </div>
+        </section>
       </div>
     </div>
+  );
+}
+
+function Spinner() {
+  return (
+    <svg
+      className="animate-spin text-forest-500"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.2" strokeWidth="3" />
+      <path
+        d="M22 12a10 10 0 0 1-10 10"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }

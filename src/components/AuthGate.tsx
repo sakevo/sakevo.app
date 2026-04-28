@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/lib/supabase';
+import { Logo } from './Logo';
 
 export function AuthGate() {
   const { t } = useTranslation();
@@ -37,46 +38,64 @@ export function AuthGate() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm border border-neutral-200">
-        <h1 className="text-2xl font-bold text-neutral-900">{t('app.name')}</h1>
-        <p className="mt-1 text-sm text-neutral-500">{t('app.tagline')}</p>
-        <hr className="my-6 border-neutral-200" />
-        <h2 className="text-lg font-semibold">{t('auth.title')}</h2>
-        <p className="text-sm text-neutral-500 mt-1">{t('auth.subtitle')}</p>
+    <div className="relative min-h-screen overflow-hidden bg-cream-50">
+      {/* Sanfte Hintergrund-Akzente */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -left-32 h-[28rem] w-[28rem] rounded-full bg-forest-100/50 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 -right-32 h-[28rem] w-[28rem] rounded-full bg-accent-soft/20 blur-3xl"
+      />
 
-        <form onSubmit={onSubmit} className="mt-6 space-y-4">
-          <label className="block">
-            <span className="text-sm font-medium text-neutral-700">{t('auth.emailLabel')}</span>
-            <input
-              type="email"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t('auth.emailPlaceholder')}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-            />
-          </label>
+      {/* Splash-Layout: vertikal zentrierte Stack */}
+      <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-16">
+        <div className="flex flex-col items-center text-center mb-14">
+          <Logo size="lg" showTagline />
+        </div>
 
-          <button
-            type="submit"
-            disabled={status === 'sending'}
-            className="w-full rounded-lg bg-brand-600 px-4 py-2 text-white font-medium hover:bg-brand-700 disabled:opacity-50"
-          >
-            {status === 'sending' ? t('auth.sending') : t('auth.send')}
-          </button>
+        <div className="w-full max-w-md card p-8 sm:p-10">
+          <h2 className="font-display text-xl font-semibold text-forest-800">{t('auth.title')}</h2>
+          <p className="mt-1 text-sm text-forest-500">{t('auth.subtitle')}</p>
 
-          {status === 'sent' && <p className="text-sm text-green-600">{t('auth.sent')}</p>}
-          {status === 'error' && (
-            <div className="text-sm text-red-600">
-              <p>{t('auth.error')}</p>
-              {errorDetail && (
-                <p className="mt-1 text-xs text-red-500 font-mono break-all">{errorDetail}</p>
-              )}
-            </div>
-          )}
-        </form>
+          <form onSubmit={onSubmit} className="mt-7 space-y-4">
+            <label className="block">
+              <span className="label">{t('auth.emailLabel')}</span>
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t('auth.emailPlaceholder')}
+                className="input mt-1.5"
+              />
+            </label>
+
+            <button type="submit" disabled={status === 'sending'} className="btn-primary w-full">
+              {status === 'sending' ? t('auth.sending') : t('auth.send')}
+            </button>
+
+            {status === 'sent' && (
+              <div className="rounded-xl bg-forest-50 px-4 py-3 text-sm text-forest-700">
+                {t('auth.sent')}
+              </div>
+            )}
+            {status === 'error' && (
+              <div className="rounded-xl bg-accent-soft/30 px-4 py-3 text-sm text-accent">
+                <p className="font-medium">{t('auth.error')}</p>
+                {errorDetail && (
+                  <p className="mt-1 text-xs font-mono break-all opacity-80">{errorDetail}</p>
+                )}
+              </div>
+            )}
+          </form>
+        </div>
+
+        <p className="mt-10 text-center text-xs text-forest-400">
+          Sustainable customs &amp; restoration · Made with care
+        </p>
       </div>
     </div>
   );
