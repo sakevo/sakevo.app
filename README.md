@@ -2,17 +2,19 @@
 
 KI-gestützte Custom-Designs und Restaurierungstipps für Sneaker und Kleidung.
 
-**Stack:** Vite + React + TypeScript + Tailwind · Vercel Functions · Supabase (Auth + Postgres + Storage) · Claude Sonnet 4.6 (Vision) · fal.ai (FLUX, Phase 1b) · i18next (DE/EN)
+**Stack:** Vite + React + TypeScript + Tailwind · Vercel Functions · Supabase (Auth + Postgres + Storage) · Claude Sonnet 4.6 (Vision) · fal.ai (FLUX dev img2img) · i18next (DE/EN)
 
-## Phase 1a — was funktioniert
+## Funktionsumfang (Phase 1a + 1b)
 
-- Magic-Link-Login (Supabase Auth)
-- Upload mit Auto-Resize auf 2048px, max 10 MB
-- Auswahl Sneaker/Kleidung × Custom/Restaurierung/Beides
-- Claude Vision-Analyse → strukturiertes JSON
-- Dashboard mit Projekt-Historie und Free-Tier-Anzeige (3/Monat)
-- Projektdetail mit JSON-Output (Karten + Mockups kommen in Phase 1b)
-- Mehrsprachig (DE/EN)
+- **Auth:** Magic-Link-Login (Supabase Auth) mit Custom-Email-Template in Markenfarben
+- **Upload:** Drag & Drop mit Auto-Resize auf 2048px, max 10 MB
+- **Auswahl:** Sneaker/Kleidung × Custom/Restaurierung/Beides + optionaler Stil-Hinweis
+- **KI-Analyse:** Claude Sonnet 4.6 Vision → strukturiertes JSON (Identifikation, Zustand, Materialien, Custom-Ideen mit Hex-Farben, Restaurierungsschritte)
+- **Mockup-Generierung:** fal.ai FLUX dev img2img — pro Custom-Idee ein Mockup, parallel gerendert
+- **Result-UI:** Tabs (Analyse / Custom-Ideen / Restaurierung) mit Color-Swatches, Difficulty-Badges, Mockup-Karten, Schritt-für-Schritt-Anleitung mit Material-Listen und Warnungen
+- **Dashboard:** Projekt-Historie mit Live-Status, Free-Tier-Quota
+- **Paywall:** 3 Projekte gratis, danach Upload deaktiviert (Stripe folgt in Phase 2)
+- **Mehrsprachig:** DE/EN, KI-Output in Nutzersprache
 
 ## Erste Einrichtung
 
@@ -57,7 +59,7 @@ VITE_SUPABASE_ANON_KEY=...
 SUPABASE_URL=...
 SUPABASE_SERVICE_ROLE_KEY=...
 ANTHROPIC_API_KEY=...
-FAL_API_KEY=...      # erst in Phase 1b benötigt
+FAL_API_KEY=...
 ```
 
 ### 4. Lokal entwickeln
@@ -105,13 +107,11 @@ sakevo/
 └── supabase/migrations/  # SQL-Schema
 ```
 
-## Phase 1b (nächster Schritt)
+## Phase 1c (kleine Politur)
 
-- fal.ai-Integration: Mockups pro Custom-Idee generieren
-- UI-Karten für Custom-Ideen mit Color-Swatches (SVG aus Hex-Codes)
-- Restaurierungs-Karten mit Schritten + Materialliste
-- PDF-Export
-- Quota-Hinweis vor Submit (statt nur Info-Anzeige)
+- PDF-Export pro Projekt (Custom-Mood-Board oder Restaurierungs-Anleitung)
+- Mockup-Retry-Button für fehlgeschlagene Renderings
+- Email-Benachrichtigung wenn Analyse fertig (für lange Renderings)
 
 ## Phase 2
 

@@ -36,7 +36,9 @@
     "submit": "Analyse starten",
     "submitting": "Analysiere ...",
     "tooLarge": "Bild ist zu groß (max. 10 MB).",
-    "noImage": "Bitte zuerst ein Bild auswählen."
+    "noImage": "Bitte zuerst ein Bild auswählen.",
+    "quotaReached": "Du hast dein kostenloses Kontingent von {{limit}} Projekten ausgeschöpft. Upgrade auf Pro, um weiterzumachen.",
+    "quotaRemaining": "Noch {{remaining}} von {{limit}} Projekten im Free-Tier."
   },
   "dashboard": {
     "title": "Deine Projekte",
@@ -55,5 +57,39 @@
   "common": {
     "language": "Sprache",
     "loading": "Lädt ..."
+  },
+  "difficulty": {
+    "easy": "Einfach",
+    "medium": "Mittel",
+    "hard": "Anspruchsvoll"
+  },
+  "idea": {
+    "colors": "Farbpalette",
+    "materials": "Benötigte Materialien",
+    "mockupPending": "Mockup wird generiert ...",
+    "mockupError": "Mockup konnte nicht generiert werden"
+  },
+  "restoration": {
+    "estimatedTime": "Geschätzte Dauer: {{hours}} Std.",
+    "step": "Schritt {{n}}",
+    "materials": "Materialien",
+    "warning": "Achtung"
+  },
+  "analysis": {
+    "identification": "Identifikation",
+    "brand": "Marke",
+    "model": "Modell",
+    "confidence": "Konfidenz",
+    "unknown": "Unbekannt",
+    "materials": "Erkannte Materialien",
+    "condition": "Zustand",
+    "conditionScore": "{{score}}/10",
+    "issues": "Auffälligkeiten",
+    "noIssues": "Keine Probleme erkannt"
+  },
+  "tabs": {
+    "overview": "Analyse",
+    "custom": "Custom-Ideen",
+    "restoration": "Restaurierung"
   }
 }

@@ -36,7 +36,9 @@
     "submit": "Start analysis",
     "submitting": "Analyzing ...",
     "tooLarge": "Image too large (max 10 MB).",
-    "noImage": "Please select an image first."
+    "noImage": "Please select an image first.",
+    "quotaReached": "You've used all {{limit}} projects in the free tier. Upgrade to Pro to continue.",
+    "quotaRemaining": "{{remaining}} of {{limit}} free-tier projects remaining."
   },
   "dashboard": {
     "title": "Your projects",
@@ -55,5 +57,39 @@
   "common": {
     "language": "Language",
     "loading": "Loading ..."
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+  },
+  "idea": {
+    "colors": "Color palette",
+    "materials": "Materials needed",
+    "mockupPending": "Generating mockup ...",
+    "mockupError": "Mockup could not be generated"
+  },
+  "restoration": {
+    "estimatedTime": "Estimated time: {{hours}} h",
+    "step": "Step {{n}}",
+    "materials": "Materials",
+    "warning": "Warning"
+  },
+  "analysis": {
+    "identification": "Identification",
+    "brand": "Brand",
+    "model": "Model",
+    "confidence": "Confidence",
+    "unknown": "Unknown",
+    "materials": "Detected materials",
+    "condition": "Condition",
+    "conditionScore": "{{score}}/10",
+    "issues": "Issues spotted",
+    "noIssues": "No issues detected"
+  },
+  "tabs": {
+    "overview": "Analysis",
+    "custom": "Custom ideas",
+    "restoration": "Restoration"
   }
 }

@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/lib/supabase';
@@ -6,6 +6,8 @@ import { MAX_BYTES, resizeImageFile } from '@/lib/image';
 
 type ItemType = 'sneaker' | 'clothing';
 type Mode = 'custom' | 'restore' | 'both';
+
+const FREE_LIMIT = 3;
 
 export function NewProject() {
   const { t, i18n } = useTranslation();
@@ -17,6 +19,24 @@ export function NewProject() {
   const [styleHint, setStyleHint] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tier, setTier] = useState<'free' | 'pro'>('free');
+  const [projectsUsed, setProjectsUsed] = useState(0);
+
+  useEffect(() => {
+    void (async () => {
+      const { data } = await supabase
+        .from('profiles')
+        .select('tier, projects_used')
+        .single();
+      if (data) {
+        setTier((data.tier as 'free' | 'pro') ?? 'free');
+        setProjectsUsed(data.projects_used ?? 0);
+      }
+    })();
+  }, []);
+
+  const quotaReached = tier === 'free' && projectsUsed >= FREE_LIMIT;
+  const remaining = Math.max(0, FREE_LIMIT - projectsUsed);
 
   function onFileChange(e: ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
@@ -32,6 +52,10 @@ export function NewProject() {
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
+    if (quotaReached) {
+      setError(t('upload.quotaReached', { limit: FREE_LIMIT }));
+      return;
+    }
     if (!file) {
       setError(t('upload.noImage'));
       return;
@@ -82,6 +106,19 @@ export function NewProject() {
         throw new Error(`Analyze failed: ${txt}`);
       }
 
+      // Fire-and-forget: Mockup-Rendering im Hintergrund anstossen,
+      // wenn der Modus Custom-Ideen erzeugt hat.
+      if (mode === 'custom' || mode === 'both') {
+        void fetch('/api/render-mockups', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ projectId }),
+        }).catch((e) => console.error('render-mockups trigger failed:', e));
+      }
+
       navigate(`/p/${projectId}`);
     } catch (err) {
       console.error(err);
@@ -94,6 +131,18 @@ export function NewProject() {
     <div className="mx-auto max-w-2xl px-4 py-10">
       <h1 className="font-display text-3xl font-semibold text-forest-800">{t('upload.title')}</h1>
       <p className="text-forest-500 mt-1">{t('upload.subtitle')}</p>
+
+      {quotaReached ? (
+        <div className="mt-6 rounded-3xl border border-accent-soft bg-accent-soft/20 p-5 text-sm text-accent">
+          <p className="font-medium">
+            {t('upload.quotaReached', { limit: FREE_LIMIT })}
+          </p>
+        </div>
+      ) : tier === 'free' ? (
+        <div className="mt-6 rounded-2xl bg-cream-100 border border-cream-200 px-4 py-2.5 text-xs text-forest-600">
+          {t('upload.quotaRemaining', { remaining, limit: FREE_LIMIT })}
+        </div>
+      ) : null}
 
       <form onSubmit={onSubmit} className="mt-8 space-y-7">
         <label className="block">
@@ -168,7 +217,7 @@ export function NewProject() {
 
         <button
           type="submit"
-          disabled={submitting || !file}
+          disabled={submitting || !file || quotaReached}
           className="btn-primary w-full !py-3"
         >
           {submitting ? t('upload.submitting') : t('upload.submit')}
